@@ -1,6 +1,7 @@
 #import krita
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from krita import *
-#from krita import *
 
 #Krita.instance().setBatchmode(True)
 
@@ -13,20 +14,22 @@ class LayersFrustrados(Extension):
     def setup(self):
         pass
 
-    def createActions(self, window):
-        action = window.createAction("layers_frustrados", "Layers Frustrados", "tools/scripts")
-        action.triggered.connect(self.trigger_layers_frustrados)
+    def trigger_layers_frustrados(self, window):
+        prepare_layers_frustrados()
 
-    def trigger_layers_frustrados(self):
-        trigger_layers_frustrados()
+    def createActions(self, window):
+#        action = window.createAction("layers_frustrados", "Layers Frustrados", "tools/scripts")
+        action = window.createAction("layers_frustrados", "Layers Frustrados")
+        action.triggered.connect(self.trigger_layers_frustrados)
 
 # And add the extension to Krita's list of extensions:
 Krita.instance().addExtension(LayersFrustrados(Krita.instance()))
 
 
-def trigger_layers_frustrados():
+def prepare_layers_frustrados():
 
     doc = Krita.activeDocument()
+#    doc = Krita.instance().activeDocument()
     root_node = doc.rootNode()
 
     info = krita.InfoObject()
