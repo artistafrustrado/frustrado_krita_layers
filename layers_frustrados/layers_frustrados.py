@@ -3,57 +3,59 @@ import krita
 
 #Krita.instance().setBatchmode(True)
 
-doc = Krita.activeDocument()
-root_node = doc.rootNode()
+def trigger_layers_frustrados():
 
-info = krita.InfoObject()
-info.setProperty("color","#FFFFFF")
-selection = krita.Selection();
-selection.select(0, 0, doc.width(), doc.height(), 255)
-node = doc.createFillLayer("white", "color", info, selection)
-root_node.addChildNode(node, None)
-doc.refreshProjection()
+    doc = Krita.activeDocument()
+    root_node = doc.rootNode()
 
-references = doc.createGroupLayer("references")
-root_node.addChildNode(references, None)
+    info = krita.InfoObject()
+    info.setProperty("color","#FFFFFF")
+    selection = krita.Selection();
+    selection.select(0, 0, doc.width(), doc.height(), 255)
+    node = doc.createFillLayer("white", "color", info, selection)
+    root_node.addChildNode(node, None)
+    doc.refreshProjection()
 
-linework = doc.createGroupLayer("linework")
-root_node.addChildNode(linework, None)
+    references = doc.createGroupLayer("references")
+    root_node.addChildNode(references, None)
 
-node_name = "background"
-background = doc.nodeByName(node_name)
-print(background.name())
-background.setVisible(False)
+    linework = doc.createGroupLayer("linework")
+    root_node.addChildNode(linework, None)
 
-dupe = background.duplicate()
-dupe.setName("reference")
-dupe.setLocked(True)
-dupe.setOpacity(200)
-dupe.setAlphaLocked(True)
-dupe.setVisible(True)
+    node_name = "background"
+    background = doc.nodeByName(node_name)
+    print(background.name())
+    background.setVisible(False)
 
-references.addChildNode(dupe, None)
+    dupe = background.duplicate()
+    dupe.setName("reference")
+    dupe.setLocked(True)
+    dupe.setOpacity(200)
+    dupe.setAlphaLocked(True)
+    dupe.setVisible(True)
 
-layer = doc.createNode("blacks", "paintLayer")
-linework.addChildNode(layer, None)
-doc.refreshProjection()
+    references.addChildNode(dupe, None)
 
-layer = doc.createNode("lineart", "paintLayer")
-linework.addChildNode(layer, None)
-doc.refreshProjection()
+    layer = doc.createNode("blacks", "paintLayer")
+    linework.addChildNode(layer, None)
+    doc.refreshProjection()
 
-
-
-
-# types
-# paintlayer
-# grouplayer
-# filllayer
+    layer = doc.createNode("lineart", "paintLayer")
+    linework.addChildNode(layer, None)
+    doc.refreshProjection()
 
 
-#info = krita.InfoObject()
-#info.setProperty("pattern", "Cross01.pat")
-#selection = krita.Selection();
+
+
+    # types
+    # paintlayer
+    # grouplayer
+    # filllayer
+
+
+    #info = krita.InfoObject()
+    #info.setProperty("pattern", "Cross01.pat")
+    #selection = krita.Selection();
 #selection.select(0, 0, doc.width(), doc.height(), 255)
 #node = doc.createFillLayer("Pattern", "pattern", info, selection)
 #linework.addChildNode(node, None)
