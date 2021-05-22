@@ -1,6 +1,3 @@
-#import krita
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 from krita import *
 
 #Krita.instance().setBatchmode(True)
@@ -15,7 +12,8 @@ class LayersFrustrados(Extension):
         pass
 
     def trigger_layers_frustrados(self, window):
-        prepare_layers_frustrados()
+        layers = LayersFrustrados()
+        layers.run()
 
     def createActions(self, window):
 #        action = window.createAction("layers_frustrados", "Layers Frustrados", "tools/scripts")
@@ -26,84 +24,61 @@ class LayersFrustrados(Extension):
 Krita.instance().addExtension(LayersFrustrados(Krita.instance()))
 
 
-def prepare_layers_frustrados():
+class LayersFrustrados:
 
-    doc = Krita.activeDocument()
-#    doc = Krita.instance().activeDocument()
-    root_node = doc.rootNode()
+    def __init__(self):
+        self._doc = Krita.activeDocument()
+        self._root_node = doc.rootNode()
 
-    info = krita.InfoObject()
-    info.setProperty("color","#FFFFFF")
-    selection = krita.Selection();
-    selection.select(0, 0, doc.width(), doc.height(), 255)
-    node = doc.createFillLayer("white", "color", info, selection)
-    root_node.addChildNode(node, None)
-    doc.refreshProjection()
+    def run():
 
-    references = doc.createGroupLayer("references")
-    root_node.addChildNode(references, None)
+#        doc = Krita.activeDocument()
+    #    doc = Krita.instance().activeDocument()
+#        root_node = doc.rootNode()
 
-    linework = doc.createGroupLayer("linework")
-    root_node.addChildNode(linework, None)
+        self.createWhiteLayer()
+        self.createReferenceLayer()
+        self.createReferenceLayer()
 
-    node_name = "background"
-    background = doc.nodeByName(node_name)
-    print(background.name())
-    background.setVisible(False)
+    def createWhiteLayer(self):
 
-    dupe = background.duplicate()
-    dupe.setName("reference")
-    dupe.setLocked(True)
-    dupe.setOpacity(200)
-    dupe.setAlphaLocked(True)
-    dupe.setVisible(True)
+        info = krita.InfoObject()
+        info.setProperty("color","#FFFFFF")
+        selection = krita.Selection();
+        selection.select(0, 0, self._doc.width(), self._doc.height(), 255)
+        node = self._doc.createFillLayer("white", "color", info, selection)
+        self._root_node.addChildNode(node, None)
+        self._doc.refreshProjection()
 
-    references.addChildNode(dupe, None)
+    def createReferenceLayer(self):
 
-    layer = doc.createNode("blacks", "paintLayer")
-    linework.addChildNode(layer, None)
-    doc.refreshProjection()
+        references = self._doc.createGroupLayer("references")
+        self._root_node.addChildNode(references, None)
 
-    layer = doc.createNode("lineart", "paintLayer")
-    linework.addChildNode(layer, None)
-    doc.refreshProjection()
+        node_name = "background"
+        background = self._doc.nodeByName(node_name)
+        background.setVisible(False)
 
+        dupe = background.duplicate()
+        dupe.setName("reference")
+        dupe.setLocked(True)
+        dupe.setOpacity(200)
+        dupe.setAlphaLocked(True)
+        dupe.setVisible(True)
 
-
-
-    # types
-    # paintlayer
-    # grouplayer
-    # filllayer
+        references.addChildNode(dupe, None)
 
 
-    #info = krita.InfoObject()
-    #info.setProperty("pattern", "Cross01.pat")
-    #selection = krita.Selection();
-        #selection.select(0, 0, doc.width(), doc.height(), 255)
-    #node = doc.createFillLayer("Pattern", "pattern", info, selection)
-    #linework.addChildNode(node, None)
-    #doc.refreshProjection()
+    def createLineworkLayer(self):
 
-    # color
+        linework = self._doc.createGroupLayer("linework")
+        self._root_node.addChildNode(linework, None)
 
-    #info = krita.InfoObject()
-    #info.setProperty("color","transparent")
-    ##info.setProperty("color",(0, 0, 0, 0))
-    #selection = krita.Selection();
-    #selection.select(0, 0, doc.width(), doc.height(), 255)
-    #node = doc.createFillLayer("lineart", "color", info, selection)
-    #linework.addChildNode(node, None)
-    #doc.refreshProjection()
+        layer = self._doc.createNode("blacks", "paintLayer")
+        linework.addChildNode(layer, None)
+        self._doc.refreshProjection()
 
+        layer = self._doc.createNode("lineart", "paintLayer")
+        linework.addChildNode(layer, None)
+        self._doc.refreshProjection()
 
-    # add_new_paint_layer
-    # convert_to_paint_layer
-
-    # Document().CreateNode or Krita.instance().openDocument(“tmp/rcpg.svg”)
-
-    #r = doc.rootNode()
-    #t = doc.createNode("Transparency Mask", "transparencymask")
-    #c = r.childNodes()[0] # I'm always using the "first layer" here
-    #c.addChildNode(t, None)
-    #doc.refreshProjection()
