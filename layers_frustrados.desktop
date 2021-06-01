@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Krita/PythonPlugin
+X-KDE-Library=layers_frustrados
+X-Python-2-Compatible=false
+X-Krita-Manual=layers_frustrados.html
+Name=Layers Frustrados
+Comment=Plugin para preparar imagem de referência para desenhar.
