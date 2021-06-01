@@ -1,0 +1,13 @@
+.*.swp    
+.*.swo 
+*.aux
+*.bbl
+*.blg
+*.brf
+*.idx
+*.lof
+*.log
+*.lot
+*.pdf
+*.toc
+__pycache__
