@@ -1,46 +1,30 @@
 from krita import *
+#import krita *
 
-#Krita.instance().setBatchmode(True)
-
-class LayersFrustrados(Extension):
-
-    def __init__(self, parent):
-        # This is initialising the parent, always important when subclassing.
-        super().__init__(parent)
-
-    def setup(self):
-        pass
-
-    def trigger_layers_frustrados(self, window):
-        layers = LayersFrustrados()
-        layers.run()
-
-    def createActions(self, window):
-#        action = window.createAction("layers_frustrados", "Layers Frustrados", "tools/scripts")
-        action = window.createAction("layers_frustrados", "Layers Frustrados")
-        action.triggered.connect(self.trigger_layers_frustrados)
-
-# And add the extension to Krita's list of extensions:
-Krita.instance().addExtension(LayersFrustrados(Krita.instance()))
-
+## And add the extension to Krita's list of extensions:
+Krita.instance().addExtension(krita.LayersFrustrados.instance())
 
 class LayersFrustrados:
 
-    def __init__(self):
-        self._doc = Krita.activeDocument()
-        self._root_node = doc.rootNode()
+    def __init__(self, Krita):
+        print("__init__ 01")
+        self._doc = krita.Krita.instance().activeDocument()
+        self._root_node = self._doc.rootNode()
+        print("__init__")
 
-    def run():
+    def run(self):
 
 #        doc = Krita.activeDocument()
-    #    doc = Krita.instance().activeDocument()
-#        root_node = doc.rootNode()
+        doc = krita.Krita.instance().activeDocument()
+        root_node = doc.rootNode()
+
+        print("run")
 
         self.createWhiteLayer()
-        self.createReferenceLayer()
-        self.createReferenceLayer()
+        self.creatererenceLayer()
+        self.createRelineworksLayer()
 
-    def createWhiteLayer(self):
+    def createWWiteLayer(self):
 
         info = krita.InfoObject()
         info.setProperty("color","#FFFFFF")
@@ -49,6 +33,8 @@ class LayersFrustrados:
         node = self._doc.createFillLayer("white", "color", info, selection)
         self._root_node.addChildNode(node, None)
         self._doc.refreshProjection()
+
+        print("white")
 
     def createReferenceLayer(self):
 
@@ -81,4 +67,6 @@ class LayersFrustrados:
         layer = self._doc.createNode("lineart", "paintLayer")
         linework.addChildNode(layer, None)
         self._doc.refreshProjection()
+    
+        print("/////////////////////////////")
 
