@@ -1,37 +1,47 @@
-from krita import *
-#import krita *
+# BBD's Krita Script Starter Feb 2018
 
-## And add the extension to Krita's list of extensions:
-#Krita.instance().addExtension((krita.LayersFrustrados.instance()))
+from krita import Extension
+from krita import * 
 
-class LayersFrustrados(Extension):
+EXTENSION_ID = 'pykrita_draw_frustrado'
+MENU_ENTRY = 'Draw Frustrado'
+
+
+class Draw_frustrado(Extension):
 
     def __init__(self, parent):
+        # Always initialise the superclass.
+        # This is necessary to create the underlying C++ object
         super().__init__(parent)
-        print("__init__ 01")
-        self._doc = krita.Krita.instance().activeDocument()
-        self._root_node = self._doc.rootNode()
-        print("__init__")
+        print("Run")
 
     def setup(self):
         pass
 
     def createActions(self, window):
-        pass
+        action = window.createAction(EXTENSION_ID, MENU_ENTRY, "tools/scripts")
+        # parameter 1 = the name that Krita uses to identify the action
+        # parameter 2 = the text to be added to the menu entry for this script
+        # parameter 3 = location of menu entry
+        action.triggered.connect(self.action_triggered)
 
-    def run(self):
-
-#        doc = Krita.activeDocument()
+    def action_triggered(self):
+#        pass  # your active code goes here.
+        print("Draw frustrado")
+        
         doc = krita.Krita.instance().activeDocument()
         root_node = doc.rootNode()
+
+        self._doc = krita.Krita.instance().activeDocument()
+        self._root_node = doc.rootNode()
 
         print("run")
 
         self.createWhiteLayer()
-        self.creatererenceLayer()
-        self.createRelineworksLayer()
+        self.createReferenceLayer()
+        self.createLineworkLayer()
 
-    def createWWiteLayer(self):
+    def createWhiteLayer(self):
 
         info = krita.InfoObject()
         info.setProperty("color","#FFFFFF")
@@ -75,7 +85,3 @@ class LayersFrustrados(Extension):
         self._doc.refreshProjection()
     
         print("/////////////////////////////")
-
-    def createActions(self, window):
-        action = window.createAction("LayersFrustrados", "Layers Frustrados", "tools/Layers Frustrados")
-
