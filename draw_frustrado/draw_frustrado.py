@@ -58,7 +58,7 @@ class Draw_frustrado(Extension):
         references = self._doc.createGroupLayer("references")
         self._root_node.addChildNode(references, None)
 
-        node_name = "background"
+        node_name = "Background"
         background = self._doc.nodeByName(node_name)
         background.setVisible(False)
 
